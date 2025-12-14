@@ -33,7 +33,9 @@ function inicializarDB() {
     usuario TEXT UNIQUE NOT NULL,
     pwd TEXT NOT NULL,
     tipo TEXT NOT NULL
-  )`);
+  )`, (err) => {
+    if (err) console.error('Error creando tabla usuarios:', err);
+  });
 
   // Tabla productos
   db.run(`CREATE TABLE IF NOT EXISTS productos (
@@ -43,7 +45,9 @@ function inicializarDB() {
     precio REAL NOT NULL,
     fotos TEXT NOT NULL,
     categoria TEXT NOT NULL
-  )`);
+  )`, (err) => {
+    if (err) console.error('Error creando tabla productos:', err);
+  });
 
   // Tabla pedidos
   db.run(`CREATE TABLE IF NOT EXISTS pedidos (
@@ -52,16 +56,23 @@ function inicializarDB() {
     precioTotal REAL NOT NULL,
     descripcion TEXT NOT NULL,
     productos TEXT NOT NULL
-  )`);
-
-  // Verificar si hay datos, si no, cargar datos iniciales
-  db.get('SELECT COUNT(*) as count FROM usuarios', (err, row) => {
-    if (err) {
-      console.error('Error verificando usuarios:', err);
-      return;
-    }
-    if (row && row.count === 0) {
-      cargarDatosIniciales();
+  )`, (err) => {
+    if (err) console.error('Error creando tabla pedidos:', err);
+    else {
+      // Solo después de crear todas las tablas, verificar y cargar datos
+      setTimeout(() => {
+        db.get('SELECT COUNT(*) as count FROM usuarios', (err, row) => {
+          if (err) {
+            console.error('Error verificando usuarios:', err);
+            return;
+          }
+          if (row && row.count === 0) {
+            cargarDatosIniciales();
+          } else {
+            console.log('✅ Base de datos ya tiene datos');
+          }
+        });
+      }, 1000);
     }
   });
 }
