@@ -25,7 +25,7 @@ const db = new sqlite3.Database('./tienda.db', (err) => {
   }
 });
 
-// Crear tablas si no existen
+// Crear tablas si no existen - CON CALLBACKS ENCADENADOS
 function inicializarDB() {
   // Tabla usuarios
   db.run(`CREATE TABLE IF NOT EXISTS usuarios (
@@ -34,45 +34,61 @@ function inicializarDB() {
     pwd TEXT NOT NULL,
     tipo TEXT NOT NULL
   )`, (err) => {
-    if (err) console.error('Error creando tabla usuarios:', err);
+    if (err) {
+      console.error('Error creando tabla usuarios:', err);
+      return;
+    }
+    console.log('✅ Tabla usuarios creada/verificada');
+    
+    // Tabla productos (después de usuarios)
+    db.run(`CREATE TABLE IF NOT EXISTS productos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nombre TEXT UNIQUE NOT NULL,
+      stock INTEGER NOT NULL,
+      precio REAL NOT NULL,
+      fotos TEXT NOT NULL,
+      categoria TEXT NOT NULL
+    )`, (err) => {
+      if (err) {
+        console.error('Error creando tabla productos:', err);
+        return;
+      }
+      console.log('✅ Tabla productos creada/verificada');
+      
+      // Tabla pedidos (después de productos)
+      db.run(`CREATE TABLE IF NOT EXISTS pedidos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fechaPedido TEXT NOT NULL,
+        precioTotal REAL NOT NULL,
+        descripcion TEXT NOT NULL,
+        productos TEXT NOT NULL
+      )`, (err) => {
+        if (err) {
+          console.error('Error creando tabla pedidos:', err);
+          return;
+        }
+        console.log('✅ Tabla pedidos creada/verificada');
+        
+        // AHORA SÍ verificar y cargar datos (después de crear TODAS las tablas)
+        verificarYCargarDatos();
+      });
+    });
   });
+}
 
-  // Tabla productos
-  db.run(`CREATE TABLE IF NOT EXISTS productos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT UNIQUE NOT NULL,
-    stock INTEGER NOT NULL,
-    precio REAL NOT NULL,
-    fotos TEXT NOT NULL,
-    categoria TEXT NOT NULL
-  )`, (err) => {
-    if (err) console.error('Error creando tabla productos:', err);
-  });
-
-  // Tabla pedidos
-  db.run(`CREATE TABLE IF NOT EXISTS pedidos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fechaPedido TEXT NOT NULL,
-    precioTotal REAL NOT NULL,
-    descripcion TEXT NOT NULL,
-    productos TEXT NOT NULL
-  )`, (err) => {
-    if (err) console.error('Error creando tabla pedidos:', err);
-    else {
-      // Solo después de crear todas las tablas, verificar y cargar datos
-      setTimeout(() => {
-        db.get('SELECT COUNT(*) as count FROM usuarios', (err, row) => {
-          if (err) {
-            console.error('Error verificando usuarios:', err);
-            return;
-          }
-          if (row && row.count === 0) {
-            cargarDatosIniciales();
-          } else {
-            console.log('✅ Base de datos ya tiene datos');
-          }
-        });
-      }, 1000);
+// Verificar si hay datos y cargarlos si es necesario
+function verificarYCargarDatos() {
+  db.get('SELECT COUNT(*) as count FROM usuarios', (err, row) => {
+    if (err) {
+      console.error('Error verificando usuarios:', err);
+      return;
+    }
+    
+    if (row && row.count === 0) {
+      console.log('📥 Base de datos vacía, cargando datos iniciales...');
+      cargarDatosIniciales();
+    } else {
+      console.log(`✅ Base de datos ya tiene ${row.count} usuarios`);
     }
   });
 }
@@ -81,32 +97,57 @@ function inicializarDB() {
 function cargarDatosIniciales() {
   const fs = require('fs');
   
-  // Cargar usuarios
-  const usuarios = JSON.parse(fs.readFileSync('./public/usuarios.json', 'utf8'));
-  usuarios.forEach(u => {
-    db.run('INSERT OR IGNORE INTO usuarios (usuario, pwd, tipo) VALUES (?, ?, ?)',
-      [u.usuario, u.pwd, u.tipo]);
-  });
-
-  // Cargar productos
-  const productos = JSON.parse(fs.readFileSync('./public/productos.json', 'utf8'));
-  productos.forEach(p => {
-    db.run('INSERT OR IGNORE INTO productos (nombre, stock, precio, fotos, categoria) VALUES (?, ?, ?, ?, ?)',
-      [p.nombre, p.stock, p.precio, JSON.stringify(p.fotos), p.categoria]);
-  });
-
-  // Cargar pedidos si existen
   try {
-    const pedidos = JSON.parse(fs.readFileSync('./public/pedidos.json', 'utf8'));
-    pedidos.forEach(p => {
-      db.run('INSERT OR IGNORE INTO pedidos (id, fechaPedido, precioTotal, descripcion, productos) VALUES (?, ?, ?, ?, ?)',
-        [p.id, p.fechaPedido, p.precioTotal, p.descripcion, JSON.stringify(p.productos)]);
-    });
-  } catch (e) {
-    console.log('ℹ️ No hay pedidos previos');
-  }
+    // Cargar usuarios
+    const usuariosPath = path.join(__dirname, 'public', 'usuarios.json');
+    if (fs.existsSync(usuariosPath)) {
+      const usuarios = JSON.parse(fs.readFileSync(usuariosPath, 'utf8'));
+      usuarios.forEach(u => {
+        db.run('INSERT OR IGNORE INTO usuarios (usuario, pwd, tipo) VALUES (?, ?, ?)',
+          [u.usuario, u.pwd, u.tipo],
+          (err) => {
+            if (err) console.error('Error insertando usuario:', err);
+          });
+      });
+      console.log(`✅ ${usuarios.length} usuarios cargados`);
+    } else {
+      console.log('⚠️ Archivo usuarios.json no encontrado');
+    }
 
-  console.log('✅ Datos iniciales cargados en la base de datos');
+    // Cargar productos
+    const productosPath = path.join(__dirname, 'public', 'productos.json');
+    if (fs.existsSync(productosPath)) {
+      const productos = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
+      productos.forEach(p => {
+        db.run('INSERT OR IGNORE INTO productos (nombre, stock, precio, fotos, categoria) VALUES (?, ?, ?, ?, ?)',
+          [p.nombre, p.stock, p.precio, JSON.stringify(p.fotos), p.categoria],
+          (err) => {
+            if (err) console.error('Error insertando producto:', err);
+          });
+      });
+      console.log(`✅ ${productos.length} productos cargados`);
+    } else {
+      console.log('⚠️ Archivo productos.json no encontrado');
+    }
+
+    // Cargar pedidos si existen
+    const pedidosPath = path.join(__dirname, 'public', 'pedidos.json');
+    if (fs.existsSync(pedidosPath)) {
+      const pedidos = JSON.parse(fs.readFileSync(pedidosPath, 'utf8'));
+      pedidos.forEach(p => {
+        db.run('INSERT OR IGNORE INTO pedidos (id, fechaPedido, precioTotal, descripcion, productos) VALUES (?, ?, ?, ?, ?)',
+          [p.id, p.fechaPedido, p.precioTotal, p.descripcion, JSON.stringify(p.productos)],
+          (err) => {
+            if (err) console.error('Error insertando pedido:', err);
+          });
+      });
+      console.log(`✅ ${pedidos.length} pedidos cargados`);
+    } else {
+      console.log('ℹ️ No hay pedidos previos (pedidos.json no encontrado)');
+    }
+  } catch (error) {
+    console.error('❌ Error cargando datos iniciales:', error);
+  }
 }
 
 // ==================== RUTAS API ====================
@@ -213,8 +254,21 @@ app.put('/api/productos', (req, res) => {
   });
 });
 
+// Cerrar base de datos cuando se cierra el servidor
+process.on('SIGINT', () => {
+  db.close((err) => {
+    if (err) {
+      console.error('Error cerrando base de datos:', err);
+    } else {
+      console.log('✅ Base de datos cerrada');
+    }
+    process.exit(0);
+  });
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor backend con SQLite corriendo en http://localhost:${PORT}`);
   console.log(`📊 Base de datos: tienda.db`);
 });
+
