@@ -1,0 +1,49 @@
+[ {
+  "nombre" : "Camiseta flores",
+  "stock" : 9,
+  "precio" : 9.99,
+  "fotos" : [ "camisetaflores.jpg" ],
+  "categoria" : "mujer"
+}, {
+  "nombre" : "Abrigo Largo",
+  "stock" : 3,
+  "precio" : 59.99,
+  "fotos" : [ "abrigolargo.jpg" ],
+  "categoria" : "mujer"
+}, {
+  "nombre" : "Chaqueta",
+  "stock" : 8,
+  "precio" : 29.99,
+  "fotos" : [ "chaqueta.jpg" ],
+  "categoria" : "mujer"
+}, {
+  "nombre" : "Cazadora",
+  "stock" : 7,
+  "precio" : 39.99,
+  "fotos" : [ "sudadera.jpg" ],
+  "categoria" : "mujer"
+}, {
+  "nombre" : "Camiseta Básica",
+  "stock" : 11,
+  "precio" : 9.99,
+  "fotos" : [ "camisetanegra.jpg" ],
+  "categoria" : "hombre"
+}, {
+  "nombre" : "Sudadera negra",
+  "stock" : 6,
+  "precio" : 19.99,
+  "fotos" : [ "sudaderanegra.jpg" ],
+  "categoria" : "hombre"
+}, {
+  "nombre" : "Pantalón Vaquero",
+  "stock" : 9,
+  "precio" : 19.99,
+  "fotos" : [ "pantalon.jpg" ],
+  "categoria" : "hombre"
+}, {
+  "nombre" : "Chaqueta Azul",
+  "stock" : 4,
+  "precio" : 59.99,
+  "fotos" : [ "chaquetaazul.jpg" ],
+  "categoria" : "mujer"
+} ]

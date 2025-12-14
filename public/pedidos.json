@@ -1,0 +1,121 @@
+[ {
+  "id" : 1,
+  "fechaPedido" : "2025-01-10",
+  "precioTotal" : 9.99,
+  "descripcion" : "Camiseta flores\n",
+  "productos" : [ {
+    "nombre" : "Camiseta flores",
+    "stock" : 1,
+    "precio" : 9.99,
+    "fotos" : [ "camisetaflores.jpg" ],
+    "categoria" : "mujer"
+  } ]
+}, {
+  "id" : 2,
+  "fechaPedido" : "2025-01-12",
+  "precioTotal" : 59.99,
+  "descripcion" : "Abrigo Largo\n",
+  "productos" : [ {
+    "nombre" : "Abrigo Largo",
+    "stock" : 1,
+    "precio" : 59.99,
+    "fotos" : [ "abrigolargo.jpg" ],
+    "categoria" : "mujer"
+  } ]
+}, {
+  "id" : 3,
+  "fechaPedido" : "2025-01-15",
+  "precioTotal" : 49.98,
+  "descripcion" : "Sudadera negra\nCamiseta Básica\n",
+  "productos" : [ {
+    "nombre" : "Sudadera negra",
+    "stock" : 1,
+    "precio" : 19.99,
+    "fotos" : [ "sudaderanegra.jpg" ],
+    "categoria" : "hombre"
+  }, {
+    "nombre" : "Camiseta Básica",
+    "stock" : 1,
+    "precio" : 9.99,
+    "fotos" : [ "camisetanegra.jpg" ],
+    "categoria" : "hombre"
+  } ]
+}, {
+  "id" : 4,
+  "fechaPedido" : "2025-01-20",
+  "precioTotal" : 79.98,
+  "descripcion" : "Chaqueta Azul\nPantalón Vaquero\n",
+  "productos" : [ {
+    "nombre" : "Chaqueta Azul",
+    "stock" : 1,
+    "precio" : 59.99,
+    "fotos" : [ "chaquetaazul.jpg" ],
+    "categoria" : "mujer"
+  }, {
+    "nombre" : "Pantalón Vaquero",
+    "stock" : 1,
+    "precio" : 19.99,
+    "fotos" : [ "pantalon.jpg" ],
+    "categoria" : "hombre"
+  } ]
+}, {
+  "id" : 5,
+  "fechaPedido" : "2025-01-22",
+  "precioTotal" : 39.99,
+  "descripcion" : "Cazadora\n",
+  "productos" : [ {
+    "nombre" : "Cazadora",
+    "stock" : 1,
+    "precio" : 39.99,
+    "fotos" : [ "sudadera.jpg" ],
+    "categoria" : "hombre"
+  } ]
+}, {
+  "id" : 6,
+  "fechaPedido" : "2025-11-22",
+  "precioTotal" : 9.99,
+  "descripcion" : "Camiseta Básica\n",
+  "productos" : [ {
+    "nombre" : "Camiseta Básica",
+    "stock" : 12,
+    "precio" : 9.99,
+    "fotos" : [ "camisetanegra.jpg" ],
+    "categoria" : "hombre"
+  } ]
+}, {
+  "id" : 6,
+  "fechaPedido" : "2025-11-22",
+  "precioTotal" : 59.99,
+  "descripcion" : "Abrigo Largo\n",
+  "productos" : [ {
+    "nombre" : "Abrigo Largo",
+    "stock" : 5,
+    "precio" : 59.99,
+    "fotos" : [ "abrigolargo.jpg" ],
+    "categoria" : "mujer"
+  } ]
+}, {
+  "id" : 7,
+  "fechaPedido" : "2025-11-23",
+  "precioTotal" : 59.99,
+  "descripcion" : "Abrigo Largo\n",
+  "productos" : [ {
+    "nombre" : "Abrigo Largo",
+    "stock" : 4,
+    "precio" : 59.99,
+    "fotos" : [ "abrigolargo.jpg" ],
+    "categoria" : "mujer"
+  } ]
+}, {
+  "id" : 8,
+  "fechaPedido" : "2025-11-23",
+  "precioTotal" : 9.99,
+  "descripcion" : "Camiseta flores\n",
+  "productos" : [ {
+    "nombre" : "Camiseta flores",
+    "stock" : 10,
+    "precio" : 9.99,
+    "fotos" : [ "camisetaflores.jpg" ],
+    "categoria" : "mujer"
+  } ]
+} ]

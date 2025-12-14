@@ -1,0 +1,13 @@
+[ {
+  "usuario" : "admin",
+  "pwd" : "admin",
+  "tipo" : "admin"
+}, {
+  "usuario" : "vendedor",
+  "pwd" : "vendedor",
+  "tipo" : "vendedor"
+}, {
+  "usuario" : "cliente",
+  "pwd" : "cliente",
+  "tipo" : "cliente"
+} ]
