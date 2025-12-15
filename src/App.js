@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Menu, X, LogOut, Search } from 'lucide-react';
 
 // URL del backend
-const getApiUrl = () => {
-  if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_URL) {
-    return process.env.REACT_APP_API_URL;
-  }
-  return 'http://localhost:3001';
-};
-
-const API_URL = getApiUrl();
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 // Servicio para conectar con la base de datos
 const DataService = {
