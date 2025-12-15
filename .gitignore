@@ -11,6 +11,8 @@
 
 # production
 /build
+.env.production
+.env.local
 
 # misc
 .DS_Store
@@ -28,3 +30,6 @@ tienda.db
 
 # Variables de entorno
 .env
+
+# vercel
+.vercel
