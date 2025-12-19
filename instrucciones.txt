@@ -1,0 +1,47 @@
+Las siguientes instrucciones son para ejecutar el proyecto de manera local, para visualizar la aplicación
+de manera web ir al siguiente link (https://tienda-online-ivory-one.vercel.app/)
+
+Requisitos previos
+Antes de ejecutar el proyecto, debe tener instalado:
+1. Node.js (versión 18 o superior)
+Descargar desde: https://nodejs.org/
+Seleccionar la versión LTS (recomendada)
+Durante la instalación, marcar la opción: "Automatically install necessary tools"
+
+2. Verificar instalación de Node.js
+node -v
+npm -v
+
+INSTALACIÓN DEL PROYECTO
+PASO 1: Descomprimir el proyecto
+Descomprimir el archivo mi-tienda.zip
+Colocarlo en una ubicación accesible (por ejemplo: Desktop)
+
+PASO 2: Abrir CMD para navegar el proyecto
+cd Desktop\mi-tienda
+
+PASO 3: Instalar dependencias
+npm install
+
+Nota: Este comando instala todas las librerías necesarias (React, Express, SQLite, etc.)
+
+EJECUTAR LA APLICACIÓN
+IMPORTANTE: Se necesitan DOS ventanas de CMD abiertas simultáneamente.
+
+CMD 1 - BACKEND (Servidor)
+Abrir primera ventana de CMD
+Navegar al proyecto y ejecuyar el servidor backend
+cd Desktop\mi-tienda
+npm run server
+
+CMD 2 - FRONTEND 
+Navegar al proyecto y ejecutar la aplicación React:
+cd Desktop\mi-tienda
+npm start
+
+Luego de unos segundos, automáticamente se abrirá el navegador mostrando la aplicación.
+Ambas ventanas deben seguir abiertas mientras la aplicacin se ejecute.
+
+Usar los siguientes usuarios para navegar la aplicación:
+cliente - cliente
+admin - admin
