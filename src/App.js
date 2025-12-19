@@ -233,7 +233,7 @@ const Login = ({ onLogin, usuarios }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold text-center mb-6">Marca</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Nova</h1>
         {error && (
           <p className="text-red-500 text-center mb-4 text-sm">{error}</p>
         )}
@@ -260,10 +260,6 @@ const Login = ({ onLogin, usuarios }) => {
           >
             INICIAR SESIÓN
           </button>
-        </div>
-        <div className="mt-4 text-xs text-gray-500 text-center">
-          <p>Usuario: cliente | Contraseña: cliente</p>
-          <p>Usuario: admin | Contraseña: admin</p>
         </div>
       </div>
     </div>
@@ -695,7 +691,7 @@ const Catalogo = ({
             <span className="text-sm">Menu</span>
           </button>
 
-          <h1 className="text-xl md:text-2xl font-bold">Marca</h1>
+          <h1 className="text-xl md:text-2xl font-bold">Nova</h1>
 
           <div className="flex items-center space-x-3">
             <div className="relative hidden md:block">
@@ -812,7 +808,7 @@ const DetallesProducto = ({ producto, onAgregarCarrito, onVolver }) => {
             onClick={onVolver}
             className="text-xl md:text-2xl font-bold cursor-pointer hover:text-gray-600"
           >
-            ← Marca
+            ← Volver
           </button>
         </div>
       </header>
