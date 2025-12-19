@@ -1,9 +1,9 @@
-## Aplicación
+## Desarrollo de la Aplicación
 
-🔗 **Frontend (Vercel):**  
+**Frontend (Vercel):**  
 https://tienda-online-ivory-one.vercel.app/
 
-🔗 **Backend (Railway):**  
+**Backend (Railway):**  
 https://tienda-online-production-4a85.up.railway.app/
 ## se pueden observar los datos en los siguientes links
 https://tienda-online-production-4a85.up.railway.app/api/usuarios
