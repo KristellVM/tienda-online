@@ -30,7 +30,7 @@ IMPORTANTE: Se necesitan DOS ventanas de CMD abiertas simultáneamente.
 
 CMD 1 - BACKEND (Servidor)
 Abrir primera ventana de CMD
-Navegar al proyecto y ejecuyar el servidor backend
+Navegar al proyecto y ejecutar el servidor backend
 cd Desktop\mi-tienda
 npm run server
 
