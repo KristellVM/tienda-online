@@ -9,15 +9,9 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware - IMPORTANTE: debe estar ANTES de las rutas
 app.use(cors({
-  origin: [
-    'http://localhost:3000', 
-    'http://localhost:3002', 
-    'http://localhost:3003',
-    'https://tienda-online-ivory-one.vercel.app'
-  ],
+  origin: ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:3003'],
   credentials: true
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -167,6 +161,53 @@ app.get('/api/usuarios', (req, res) => {
     res.json(rows);
   });
 });
+// POST - Crear usuario
+app.post('/api/usuarios', (req, res) => {
+  const { usuario, pwd, tipo } = req.body;
+  
+  db.run(
+    'INSERT INTO usuarios (usuario, pwd, tipo) VALUES (?, ?, ?)',
+    [usuario, pwd, tipo],
+    function(err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      console.log(`✅ Usuario creado con ID: ${this.lastID}`);
+      res.json({ id: this.lastID, usuario, pwd, tipo, success: true });
+    }
+  );
+});
+
+// PUT - Actualizar usuario
+app.put('/api/usuarios/:id', (req, res) => {
+  const { id } = req.params;
+  const { usuario, pwd, tipo } = req.body;
+  
+  db.run(
+    'UPDATE usuarios SET usuario = ?, pwd = ?, tipo = ? WHERE id = ?',
+    [usuario, pwd, tipo, id],
+    function(err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      console.log(`✅ Usuario ${id} actualizado`);
+      res.json({ success: true, changes: this.changes });
+    }
+  );
+});
+
+// DELETE - Eliminar usuario
+app.delete('/api/usuarios/:id', (req, res) => {
+  const { id } = req.params;
+  
+  db.run('DELETE FROM usuarios WHERE id = ?', [id], function(err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log(`✅ Usuario ${id} eliminado`);
+    res.json({ success: true, changes: this.changes });
+  });
+});
 
 // GET - Obtener productos
 app.get('/api/productos', (req, res) => {
@@ -240,6 +281,35 @@ app.put('/api/productos/:nombre', (req, res) => {
     }
   );
 });
+// POST - Crear producto
+app.post('/api/productos', (req, res) => {
+  const { nombre, stock, precio, fotos, categoria } = req.body;
+  
+  db.run(
+    'INSERT INTO productos (nombre, stock, precio, fotos, categoria) VALUES (?, ?, ?, ?, ?)',
+    [nombre, stock, precio, JSON.stringify(fotos || []), categoria],
+    function(err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      console.log(`✅ Producto creado: ${nombre}`);
+      res.json({ id: this.lastID, nombre, stock, precio, fotos, categoria, success: true });
+    }
+  );
+});
+
+// DELETE - Eliminar producto
+app.delete('/api/productos/:nombre', (req, res) => {
+  const nombre = decodeURIComponent(req.params.nombre);
+  
+  db.run('DELETE FROM productos WHERE nombre = ?', [nombre], function(err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log(`✅ Producto ${nombre} eliminado`);
+    res.json({ success: true, changes: this.changes });
+  });
+});
 
 // PUT - Actualizar múltiples productos (para compras)
 app.put('/api/productos', (req, res) => {
@@ -257,6 +327,36 @@ app.put('/api/productos', (req, res) => {
     }
     console.log('✅ Stock de productos actualizado');
     res.json({ success: true });
+  });
+});
+// PUT - Actualizar pedido
+app.put('/api/pedidos/:id', (req, res) => {
+  const { id } = req.params;
+  const { fechaPedido, precioTotal, descripcion, productos } = req.body;
+  
+  db.run(
+    'UPDATE pedidos SET fechaPedido = ?, precioTotal = ?, descripcion = ?, productos = ? WHERE id = ?',
+    [fechaPedido, precioTotal, descripcion, JSON.stringify(productos), id],
+    function(err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      console.log(`✅ Pedido ${id} actualizado`);
+      res.json({ success: true, changes: this.changes });
+    }
+  );
+});
+
+// DELETE - Eliminar pedido
+app.delete('/api/pedidos/:id', (req, res) => {
+  const { id } = req.params;
+  
+  db.run('DELETE FROM pedidos WHERE id = ?', [id], function(err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    console.log(`✅ Pedido ${id} eliminado`);
+    res.json({ success: true, changes: this.changes });
   });
 });
 
